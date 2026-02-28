@@ -1,0 +1,3 @@
+Baseline regime selected: p=0.05, k=2
+Rationale: k=3 yields 0 shared genera for all p; k=2 is the strictest regime that yields a non-empty cross-cohort genus set.
+Grid results: see data/processed/robustness/robustness_summary.csv

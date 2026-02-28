@@ -1,0 +1,4 @@
+metric,cohort,setting,AUC,AUC_sd,reps,n
+CLR_counts,finland,perm_within_oof,0.482532870708546,0.0805335068944982,50,148
+CLR_counts,malaysia,perm_within_oof,0.475355816831683,0.073659718739487,50,197
+CLR_counts,usa,perm_within_oof,0.455084770750406,0.0406096990375842,50,337

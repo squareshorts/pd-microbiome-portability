@@ -1,0 +1,4 @@
+metric,cohort,setting,AUC,AUC_sd,reps,n
+log_rel_abund,finland,perm_within_oof,0.482983929875822,0.0829288750907227,50,148
+log_rel_abund,malaysia,perm_within_oof,0.469118193069307,0.0731393686471554,50,197
+log_rel_abund,usa,perm_within_oof,0.462330089930709,0.0454393283262074,50,337

@@ -1,0 +1,10 @@
+train1,train2,jaccard
+finland,finland,1
+finland,malaysia,0.0909090909090909
+finland,usa,0.191489361702128
+malaysia,finland,0.0909090909090909
+malaysia,malaysia,1
+malaysia,usa,0.0454545454545455
+usa,finland,0.191489361702128
+usa,malaysia,0.0454545454545455
+usa,usa,1

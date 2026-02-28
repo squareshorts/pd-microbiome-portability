@@ -1,0 +1,13 @@
+Permutation test for adonis under reduced model
+Marginal effects of terms
+Permutation: free
+Number of permutations: 999
+
+adonis2(formula = bray ~ Cohort + PD * Sex, data = md, permutations = 999, by = "margin")
+          Df SumOfSqs      R2        F Pr(>F)    
+Cohort     2  126.330 0.46781 304.8628  0.001 ***
+PD:Sex     1    0.369 0.00137   1.7792  0.071 .  
+Residual 676  140.062 0.51865                    
+Total    681  270.049 1.00000                    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1

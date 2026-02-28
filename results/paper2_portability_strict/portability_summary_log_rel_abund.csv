@@ -1,0 +1,8 @@
+metric,item,AUC,AUC_sd,n
+log_rel_abund,within_strict_oof_finland,0.972836011687363,0.00659303683835377,148
+log_rel_abund,within_strict_oof_malaysia,0.866032384488449,0.0122541106729118,197
+log_rel_abund,within_strict_oof_usa,0.97515111307681,0.00301078051390504,337
+log_rel_abund,LOCO_test_finland,0.638970051132213,,148
+log_rel_abund,LOCO_test_malaysia,0.694719471947195,,197
+log_rel_abund,LOCO_test_usa,0.73031844316674,,337
+log_rel_abund,transfer_offdiag_mean,0.604825886717145,0.0933845650762387,

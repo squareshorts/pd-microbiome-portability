@@ -1,0 +1,4 @@
+metric,cohort_train,cohort_test,setting,AUC,n_train,n_test
+log_rel_abund,ALL_BUT_ONE,finland,LOCO,0.638970051132213,534,148
+log_rel_abund,ALL_BUT_ONE,malaysia,LOCO,0.694719471947195,485,197
+log_rel_abund,ALL_BUT_ONE,usa,LOCO,0.73031844316674,345,337

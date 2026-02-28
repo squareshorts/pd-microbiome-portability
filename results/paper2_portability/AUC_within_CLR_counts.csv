@@ -1,0 +1,4 @@
+metric,cohort_train,cohort_test,setting,AUC,AUC_sd,n
+CLR_counts,finland,finland,within_baseline,0.975913075237399,0.011555507349839,148
+CLR_counts,malaysia,malaysia,within_baseline,0.895523927392739,0.00900373846802578,197
+CLR_counts,usa,usa,within_baseline,0.950519681556833,0.00376542606219693,337

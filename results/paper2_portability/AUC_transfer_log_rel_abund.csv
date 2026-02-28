@@ -1,0 +1,10 @@
+metric,cohort_train,cohort_test,setting,AUC,n_train,n_test
+log_rel_abund,finland,finland,transfer,0.998539079620161,148,148
+log_rel_abund,finland,malaysia,transfer,0.572710396039604,148,197
+log_rel_abund,finland,usa,transfer,0.528600914049831,148,337
+log_rel_abund,malaysia,finland,transfer,0.745252008765522,197,148
+log_rel_abund,malaysia,malaysia,transfer,0.912438118811881,197,197
+log_rel_abund,malaysia,usa,transfer,0.53875497567448,197,337
+log_rel_abund,usa,finland,transfer,0.699598246895544,337,148
+log_rel_abund,usa,malaysia,transfer,0.544038778877888,337,197
+log_rel_abund,usa,usa,transfer,0.994250331711632,337,337

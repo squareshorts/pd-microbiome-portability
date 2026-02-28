@@ -1,0 +1,4 @@
+metric,cohort_test,setting,AUC,n_train,n_test
+CLR_counts,finland,LOCO,0.573228634039445,534,148
+CLR_counts,malaysia,LOCO,0.665532178217822,485,197
+CLR_counts,usa,LOCO,0.688154209052042,345,337

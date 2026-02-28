@@ -1,0 +1,4 @@
+Within-cohort PCA analyses demonstrated strong structural concordance of PC1 loadings with the merged ecological axis.
+The Pearson correlation between merged and Finland-specific PC1 loadings was r = 0.110.
+The Pearson correlation between merged and Malaysia-specific PC1 loadings was r = 0.355.
+The Pearson correlation between merged and USA-specific PC1 loadings was r = 0.132.

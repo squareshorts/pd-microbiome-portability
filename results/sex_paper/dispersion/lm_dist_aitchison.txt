@@ -1,0 +1,23 @@
+
+Call:
+lm(formula = dist ~ Cohort + PD * Sex, data = dd)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.7713 -1.0489  0.1125  1.0253  5.9801 
+
+Coefficients:
+                Estimate Std. Error t value Pr(>|t|)    
+(Intercept)    15.537517   0.175132  88.719   <2e-16 ***
+Cohortmalaysia  1.525443   0.180424   8.455   <2e-16 ***
+Cohortusa      -3.782808   0.164569 -22.986   <2e-16 ***
+PDPD            0.014991   0.187049   0.080    0.936    
+SexMale         0.131836   0.192075   0.686    0.493    
+PDPD:SexMale   -0.008583   0.260994  -0.033    0.974    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 1.654 on 676 degrees of freedom
+Multiple R-squared:  0.6773,	Adjusted R-squared:  0.6749 
+F-statistic: 283.8 on 5 and 676 DF,  p-value: < 2.2e-16
+

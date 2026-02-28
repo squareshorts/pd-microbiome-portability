@@ -1,0 +1,8 @@
+metric,item,AUC,AUC_sd,n
+CLR_counts,within_strict_oof_finland,0.882980277574872,0.016647316019263,148
+CLR_counts,within_strict_oof_malaysia,0.842672235973597,0.0143688462533509,197
+CLR_counts,within_strict_oof_usa,0.896071060002949,0.0076682161861487,337
+CLR_counts,LOCO_test_finland,0.573228634039445,,148
+CLR_counts,LOCO_test_malaysia,0.665532178217822,,197
+CLR_counts,LOCO_test_usa,0.688154209052042,,337
+CLR_counts,transfer_offdiag_mean,0.568575301053232,0.0517678055925198,

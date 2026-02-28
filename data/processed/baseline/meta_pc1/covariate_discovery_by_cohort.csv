@@ -1,0 +1,4 @@
+Cohort,id_col,age_col,sex_col,bmi_col,levodopa_col,constipation_col,depth_col
+Finland,SampleID,,,,,,
+Malaysia,SampleID,,Sex,,,,
+USA,SampleID,,Sex,,,,

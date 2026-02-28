@@ -1,0 +1,4 @@
+Error in setnames(X2, "sampleid", "SampleID") : 
+  Items of 'old' not found in column names: [sampleid]. Consider skip_absent=TRUE.
+Calls: lapply ... read_and_align -> setnames -> stopf -> raise_condition -> signal
+Execution halted

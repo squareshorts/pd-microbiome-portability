@@ -1,0 +1,4 @@
+metric,cohort_train,cohort_test,setting,AUC,AUC_sd,n
+log_rel_abund,finland,finland,within_baseline,0.998666910153397,0.000927369644441834,148
+log_rel_abund,malaysia,malaysia,within_baseline,0.911396452145214,0.00896591372613385,197
+log_rel_abund,usa,usa,within_baseline,0.995499778858912,0.00110207522404714,337

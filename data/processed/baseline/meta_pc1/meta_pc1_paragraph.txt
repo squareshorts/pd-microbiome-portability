@@ -1,0 +1,1 @@
+Random-effects meta-analysis (REML, Hartung–Knapp): k=3 cohorts; pooled g=0.1831 (SE=0.0681), 95% CI [-0.1101, 0.4763], p=0.115. Heterogeneity: tau^2=0.0000, I^2=0.0%. Q=1.553 (p=0.4601).

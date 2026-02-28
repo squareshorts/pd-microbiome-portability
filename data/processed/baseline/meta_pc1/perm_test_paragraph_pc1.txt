@@ -1,0 +1,1 @@
+Permutation testing with 10000 within-cohort label shuffles yielded an empirical two-sided p-value of 0.0357 for the PD coefficient (observed $\beta_{PD}=0.361$), indicating that the observed PD-associated displacement along PC1 exceeds null expectations under preserved cohort structure.

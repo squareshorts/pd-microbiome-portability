@@ -1,0 +1,11 @@
+Permutation test for adonis under reduced model
+Permutation: free
+Number of permutations: 999
+
+adonis2(formula = aitch ~ Cohort + PD * Sex, data = md, permutations = 999)
+          Df SumOfSqs      R2      F Pr(>F)    
+Model      5    99880 0.68994 300.85  0.001 ***
+Residual 676    44886 0.31006                  
+Total    681   144766 1.00000                  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1

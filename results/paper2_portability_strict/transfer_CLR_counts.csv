@@ -1,0 +1,10 @@
+metric,cohort_train,cohort_test,setting,AUC,n_train,n_test
+CLR_counts,finland,finland,transfer,0.983747260774288,148,148
+CLR_counts,finland,malaysia,transfer,0.488036303630363,148,197
+CLR_counts,finland,usa,transfer,0.613187380215244,148,337
+CLR_counts,malaysia,finland,transfer,0.633856829802776,197,148
+CLR_counts,malaysia,malaysia,transfer,0.889748349834984,197,197
+CLR_counts,malaysia,usa,transfer,0.549314462627156,197,337
+CLR_counts,usa,finland,transfer,0.552593133674215,337,148
+CLR_counts,usa,malaysia,transfer,0.574463696369637,337,197
+CLR_counts,usa,usa,transfer,0.948584697036709,337,337

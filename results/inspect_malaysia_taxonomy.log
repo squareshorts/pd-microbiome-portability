@@ -1,0 +1,83 @@
+Columns:
+[1] "OTU"      "Size"     "Taxonomy"
+
+Example taxonomy strings:
+          OTU
+       <char>
+ 1: Otu000001
+ 2: Otu000002
+ 3: Otu000003
+ 4: Otu000004
+ 5: Otu000005
+ 6: Otu000006
+ 7: Otu000007
+ 8: Otu000008
+ 9: Otu000009
+10: Otu000010
+11: Otu000011
+12: Otu000012
+13: Otu000013
+14: Otu000014
+15: Otu000015
+16: Otu000016
+17: Otu000017
+18: Otu000018
+19: Otu000019
+20: Otu000020
+          OTU
+                                                                                                                                                                       Taxonomy
+                                                                                                                                                                         <char>
+ 1: Bacteria(100);"Bacteroidetes"(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);
+ 2:                             Bacteria(100);"Bacteroidetes"(100);"Bacteroidia"(100);"Bacteroidales"(100);"Bacteroidales"_unclassified(100);"Bacteroidales"_unclassified(100);
+ 3:                       Bacteria(100);Bacteria_unclassified(100);Bacteria_unclassified(100);Bacteria_unclassified(100);Bacteria_unclassified(100);Bacteria_unclassified(100);
+ 4: Bacteria(100);"Bacteroidetes"(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);
+ 5: Bacteria(100);"Bacteroidetes"(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);
+ 6: Bacteria(100);"Bacteroidetes"(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);
+ 7: Bacteria(100);"Bacteroidetes"(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);
+ 8:                          Bacteria(100);Firmicutes(100);Firmicutes_unclassified(100);Firmicutes_unclassified(100);Firmicutes_unclassified(100);Firmicutes_unclassified(100);
+ 9:                       Bacteria(100);Bacteria_unclassified(100);Bacteria_unclassified(100);Bacteria_unclassified(100);Bacteria_unclassified(100);Bacteria_unclassified(100);
+10:                           Bacteria(100);"Actinobacteria"(100);Actinobacteria(100);Actinomycetales(100);Actinomycetales_unclassified(100);Actinomycetales_unclassified(100);
+11:                       Bacteria(100);Bacteria_unclassified(100);Bacteria_unclassified(100);Bacteria_unclassified(100);Bacteria_unclassified(100);Bacteria_unclassified(100);
+12:                                                    Bacteria(100);Firmicutes(100);Clostridia(100);Clostridiales(100);Lachnospiraceae(100);Lachnospiraceae_unclassified(100);
+13: Bacteria(100);"Bacteroidetes"(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);
+14:                       Bacteria(100);Bacteria_unclassified(100);Bacteria_unclassified(100);Bacteria_unclassified(100);Bacteria_unclassified(100);Bacteria_unclassified(100);
+15:                                       Bacteria(100);Firmicutes(100);Clostridia(100);Clostridia_unclassified(100);Clostridia_unclassified(100);Clostridia_unclassified(100);
+16:                       Bacteria(100);Bacteria_unclassified(100);Bacteria_unclassified(100);Bacteria_unclassified(100);Bacteria_unclassified(100);Bacteria_unclassified(100);
+17: Bacteria(100);"Bacteroidetes"(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);
+18:                       Bacteria(100);Bacteria_unclassified(100);Bacteria_unclassified(100);Bacteria_unclassified(100);Bacteria_unclassified(100);Bacteria_unclassified(100);
+19: Bacteria(100);"Bacteroidetes"(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);
+20: Bacteria(100);"Bacteroidetes"(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);"Bacteroidetes"_unclassified(100);
+                                                                                                                                                                       Taxonomy
+
+Last-token frequency (raw):
+last_tok
+            Bacteria_unclassified      "Bacteroidetes"_unclassified 
+                           160539                              3560 
+          Firmicutes_unclassified        Clostridiales_unclassified 
+                              480                               307 
+     Lachnospiraceae_unclassified     "Proteobacteria"_unclassified 
+                              281                               157 
+     "Bacteroidales"_unclassified      Actinomycetales_unclassified 
+                               52                                44 
+          Clostridia_unclassified       Actinobacteria_unclassified 
+                               43                                37 
+"Sphingobacteriales"_unclassified  Gammaproteobacteria_unclassified 
+                               24                                20 
+             Bacilli_unclassified  Alphaproteobacteria_unclassified 
+                                8                                 6 
+          Bacillales_unclassified    Flavobacteriaceae_unclassified 
+                                6                                 6 
+     Lactobacillales_unclassified  Erysipelotrichaceae_unclassified 
+                                5                                 4 
+         Rhizobiales_unclassified                       Bacteroides 
+                                3                                 2 
+                Clostridium_XVIII    Coriobacteriaceae_unclassified 
+                                2                                 2 
+                    Fusobacterium                      Leptotrichia 
+                                2                                 2 
+  "Flavobacteriales"_unclassified   "Fusobacteriaceae"_unclassified 
+                                1                                 1 
+    Acetobacteraceae_unclassified      Burkholderiales_unclassified 
+                                1                                 1 
+   Campylobacterales_unclassified                    Capnocytophaga 
+                                1                                 1 

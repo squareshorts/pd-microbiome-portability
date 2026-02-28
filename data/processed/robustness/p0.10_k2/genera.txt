@@ -1,0 +1,13 @@
+Unclassified
+Bacteria_unclassified
+Bacteroidales_unclassified
+Bacteroides
+Bacteroidetes_unclassified
+Clostridiales_unclassified
+Clostridium_XVIII
+Coriobacteriaceae_unclassified
+Firmicutes_unclassified
+Fusobacteriaceae_unclassified
+Fusobacterium
+Lachnospiraceae_unclassified
+Peptoniphilus

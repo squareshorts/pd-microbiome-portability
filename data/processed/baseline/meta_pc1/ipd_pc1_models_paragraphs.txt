@@ -1,0 +1,1 @@
+IPD cohort-adjusted OLS: PD effect beta=0.36076 (SE=0.16839), t=2.142, p=0.03252, N=683.

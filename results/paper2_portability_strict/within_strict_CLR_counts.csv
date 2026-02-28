@@ -1,0 +1,4 @@
+metric,cohort,setting,AUC,AUC_sd,n
+CLR_counts,finland,within_strict_oof,0.886376917457999,0.0153014686556912,148
+CLR_counts,malaysia,within_strict_oof,0.844662747524752,0.00995030185458175,197
+CLR_counts,usa,within_strict_oof,0.901831785345717,0.00564638326425368,337
