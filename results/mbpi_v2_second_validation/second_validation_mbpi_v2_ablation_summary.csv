@@ -1,0 +1,9 @@
+diagnostic,task,auroc,auprc,notes
+DSAS: null vs disease signal,null_vs_disease_signal,1.0,1.0,Acceptance target AUROC >= 0.80.
+PRS: elastic_net_positive,portable_vs_nonportable,0.6933333333333334,0.5971343278930662,PRS calibration excludes null simulations.
+PRS: equal_weight,portable_vs_nonportable,0.5933333333333333,0.5237993371039348,PRS calibration excludes null simulations.
+PRS: heterogeneity_alone,portable_vs_nonportable,0.7916666666666667,0.7518614718614718,PRS calibration excludes null simulations.
+PRS: manual_constrained,portable_vs_nonportable,0.6333333333333333,0.6535738602513964,PRS calibration excludes null simulations.
+PRS: nonnegative_logistic,portable_vs_nonportable,0.77,0.7728508139034455,PRS calibration excludes null simulations.
+MBPI-v2 gated score,nonportable_vs_null_or_portable,0.872,0.8400442157539343,Uses DSAS multiplied by PRS_nonnegative_logistic.
+Null false non-portability/cohort-conditioned rate,null_guardrail,,,0.0

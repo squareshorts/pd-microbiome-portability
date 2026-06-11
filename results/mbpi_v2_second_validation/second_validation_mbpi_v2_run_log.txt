@@ -1,0 +1,49 @@
+Second validation MBPI-v2 run log
+date_time: 2026-06-10T12:12:12
+repository_root: C:\work\pd-microbiome-portability
+command: python scripts/mbpi_v2/run_second_validation.py --root . --simulation-reps 5 --bootstrap-B 50 --seed 20260610 --prevalence-threshold 0.20
+selected_dataset: MetaGenoPolis Recherche Data Gouv CRC benchmark (https://doi.org/10.57745/7IVO3E)
+selected_prs_strategy: nonnegative_logistic
+
+source_files:
+- C:\work\pd-microbiome-portability\results\mbpi_v2_second_validation\source\species_signal_2340_CRC_cohort_20240322.tab | found=True | sha256=dcfc766c0ec6479b53995c772e9fef736bb6aafb6a77ee2fd725ebc7b55c0342
+- C:\work\pd-microbiome-portability\results\mbpi_v2_second_validation\source\metadata_2340_CRC_cohort_20240704.tar.gz | found=True | sha256=44b1cf080af290a93563f324aceb892d1bb9f7dd56dfbf52a64eb3d52a7be486
+- C:\work\pd-microbiome-portability\results\mbpi_v2_second_validation\source\metadata_2340_CRC_cohort_20240704.xlsx | found=True | sha256=f32549406bb835d21a2eb0fcb959e0158de5c85c33045cfb05dd89a53a1750c4
+
+number_of_samples: 1850
+number_of_features: 413
+number_of_cohorts: 12
+class_counts: CRC=880; control=970
+retained_cohorts: ['PRJDB4176', 'PRJEB10878', 'PRJEB12449', 'PRJEB27928', 'PRJEB6070', 'PRJEB7774', 'PRJNA389927', 'PRJNA429097', 'PRJNA447983', 'PRJNA731589', 'PRJNA763023', 'PRJNA961076']
+rejected_cohorts: PRJNA397112: CRC=0, healthy=74; PRJNA531273: CRC=11, healthy=0; PRJNA608088: CRC=6, healthy=12
+prevalence_threshold: 0.2
+clr_pseudocount: 1.717137750331085e-10
+
+DSAS_observed: 0.8348024053021467
+DSAS_95_CI: 0.8348024053021467 to 0.8348024053021467
+PRS_observed: 1.0
+PRS_95_CI: 1.0 to 1.0
+MBPI_v2_final_class: non-portable
+
+selected_weights:
+- S_CDDR: weight=0.0; coefficient=0.0
+- S_angle: weight=0.0025058931557892; coefficient=0.2624417395068912
+- S_BPG: weight=0.0; coefficient=0.0
+- S_LOCO: weight=0.0; coefficient=0.0
+- S_feature: weight=0.0; coefficient=0.0
+- S_heterogeneity: weight=0.9974941068442108; coefficient=104.46737840489524
+
+ablation_summary:
+                                        diagnostic                            task    auroc    auprc                                             notes
+                      DSAS: null vs disease signal          null_vs_disease_signal 1.000000 1.000000                  Acceptance target AUROC >= 0.80.
+                         PRS: elastic_net_positive         portable_vs_nonportable 0.693333 0.597134        PRS calibration excludes null simulations.
+                                 PRS: equal_weight         portable_vs_nonportable 0.593333 0.523799        PRS calibration excludes null simulations.
+                          PRS: heterogeneity_alone         portable_vs_nonportable 0.791667 0.751861        PRS calibration excludes null simulations.
+                           PRS: manual_constrained         portable_vs_nonportable 0.633333 0.653574        PRS calibration excludes null simulations.
+                         PRS: nonnegative_logistic         portable_vs_nonportable 0.770000 0.772851        PRS calibration excludes null simulations.
+                               MBPI-v2 gated score nonportable_vs_null_or_portable 0.872000 0.840044 Uses DSAS multiplied by PRS_nonnegative_logistic.
+Null false non-portability/cohort-conditioned rate                  null_guardrail      NaN      NaN                                               0.0
+
+warnings_or_limitations:
+- Selected PRS AUROC was 0.770; heterogeneity alone was 0.792.
+- This second validation uses one single classifier path for prediction-derived components rather than the PD run's existing multi-classifier summaries.

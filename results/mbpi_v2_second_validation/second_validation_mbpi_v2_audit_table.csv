@@ -1,0 +1,15 @@
+audit_item,value,notes
+source_dataset,https://doi.org/10.57745/7IVO3E,CRC benchmark dataset DOI.
+species_file,C:\work\pd-microbiome-portability\results\mbpi_v2_second_validation\source\species_signal_2340_CRC_cohort_20240322.tab,sha256=dcfc766c0ec6479b53995c772e9fef736bb6aafb6a77ee2fd725ebc7b55c0342
+metadata_file,C:\work\pd-microbiome-portability\results\mbpi_v2_second_validation\source\metadata_2340_CRC_cohort_20240704.xlsx,sha256=f32549406bb835d21a2eb0fcb959e0158de5c85c33045cfb05dd89a53a1750c4
+phenotype_rule,"CRC=1, healthy=0",Adenoma and rows marked to_exclude=yes were excluded.
+cohort_rule,retained cohorts with >= 10 CRC and >= 10 controls,"rejected: PRJNA397112: CRC=0, healthy=74; PRJNA531273: CRC=11, healthy=0; PRJNA608088: CRC=6, healthy=12"
+n_samples,1850,CRC=880; controls=970
+n_cohorts,12,PRJDB4176;PRJEB10878;PRJEB12449;PRJEB27928;PRJEB6070;PRJEB7774;PRJNA389927;PRJNA429097;PRJNA447983;PRJNA731589;PRJNA763023;PRJNA961076
+n_features,413,prevalence_threshold=0.2
+clr_pseudocount,1.717137750331085e-10,Half the minimum positive retained abundance.
+pooled_auroc,0.7643345829428303,Single L2 logistic model with stratified pooled CV.
+loco_auroc,0.7538581107295221,Mean leave-one-cohort-out AUROC across retained cohorts.
+selected_prs_strategy,nonnegative_logistic,Calibrated on MBPI-v2 simulations for this second dataset.
+simulation_reps_per_setting,5,Used for second validation run.
+bootstrap_replicates,50,Used for second validation uncertainty intervals.

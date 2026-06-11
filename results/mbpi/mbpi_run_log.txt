@@ -1,0 +1,70 @@
+MBPI run log
+date_time: 2026-06-08T17:14:27
+repository_root: C:\work\pd-microbiome-portability
+command: python scripts/mbpi/run_mbpi_pipeline.py --bootstrap-B 500 --bootstrap-mode fast --simulation-reps 50 --seed 20260608
+
+input_files_used:
+- C:\work\pd-microbiome-portability\results\portability_analysis\dataset_clr.csv | found=True | sha256=edd504b01ff5f97fb0de9f42bf3f2d04793e298ed9340baaac5fa265d8659392
+- C:\work\pd-microbiome-portability\results\portability_analysis\model_performance_pooled_cv.csv | found=True | sha256=e78986b33f0a70c3e8d8c971a3c8b054cf64644bee8df7792d02f190c26fe29e
+- C:\work\pd-microbiome-portability\results\portability_analysis\model_performance_leave_one_cohort_out.csv | found=True | sha256=e043fc1973c14dbaa4a965e949c0e2d685531469a224c9098117f27cd836615b
+- C:\work\pd-microbiome-portability\results\portability_analysis\feature_stability_summary.csv | found=True | sha256=5c136219f7fe970ef9e4c70287efd775095fde8ce85115cf9aa7b954b8896cbe
+- C:\work\pd-microbiome-portability\results\portability_analysis\cohort_disease_dominance_ratio.csv | found=True | sha256=562823b2453c560dc1551767043538254f64ed2961369ac9b51368c5a0e9d43f
+- C:\work\pd-microbiome-portability\results\portability_analysis\disease_vector_geometry.csv | found=True | sha256=627430ae406259327a9ab6188a836fc3c40cbe40308ffea010dc5aee4c2f4176
+- C:\work\pd-microbiome-portability\results\fdr\genus_disease_by_cohort_interactions_fdr.csv | found=True | sha256=fd30a94f35539211e817a3cbdc68b4a7b3aa231c09159cfdaf1ab5a61056517a
+- C:\work\pd-microbiome-portability\results\fdr\genus_heterogeneity_fdr.csv | found=True | sha256=435fbccede4cca60a701dee5dd9cedb16db3b369b6c6a644d7581c1c8b3fc0cb
+- C:\work\pd-microbiome-portability\results\portability_analysis\debiasm_run_log_or_failure_reason.txt | found=True | sha256=d75030404a8b94d84211b5c5732719157831db404fc51711dc7369b2ce1ffe38
+
+number_of_samples: 683
+number_of_genera: 62
+cohort_counts: {'Finland': 148, 'Malaysia': 198, 'USA': 337}
+disease_counts_by_cohort:
+- Cohort=Finland, PD=0, n=74
+- Cohort=Finland, PD=1, n=74
+- Cohort=Malaysia, PD=0, n=97
+- Cohort=Malaysia, PD=1, n=101
+- Cohort=USA, PD=0, n=133
+- Cohort=USA, PD=1, n=204
+
+MBPI_value: 0.7703906524825898
+MBPI_95_CI: 0.7580854176870947 to 0.776720336442811
+MBPI_classification: non-portable
+MBPI_plus_value: 0.8031919878422198
+MBPI_plus_95_CI: 0.7926446437317953 to 0.8086174312366953
+MBPI_plus_classification: non-portable
+conservative_non_portable_flag: True
+
+component_scores:
+- S_CDDR: score=0.7071259219039958, available=True, source=C:\work\pd-microbiome-portability\results\portability_analysis\cohort_disease_dominance_ratio.csv
+- S_angle: score=0.9570914867102254, available=True, source=C:\work\pd-microbiome-portability\results\portability_analysis\disease_vector_geometry.csv
+- S_BPG: score=0.8870369060213331, available=True, source=C:\work\pd-microbiome-portability\results\portability_analysis\model_performance_pooled_cv.csv
+- S_LOCO: score=0.9054116865286784, available=True, source=C:\work\pd-microbiome-portability\results\portability_analysis\model_performance_pooled_cv.csv
+- S_feature: score=0.6656779137313065, available=True, source=C:\work\pd-microbiome-portability\results\portability_analysis\feature_stability_summary.csv
+- S_heterogeneity: score=0.5, available=True, source=C:\work\pd-microbiome-portability\results\fdr\genus_disease_by_cohort_interactions_fdr.csv; C:\work\pd-microbiome-portability\results\fdr\genus_heterogeneity_fdr.csv
+- S_domain: score=1.0, available=True, source=C:\work\pd-microbiome-portability\results\portability_analysis\debiasm_run_log_or_failure_reason.txt
+
+simulation_settings:
+     regime                     setting  alpha heterogeneity_label  n_replicates  MBPI_mean  MBPI_median
+       null null_permuted_within_cohort   0.00                none            50   0.637044     0.586946
+   portable         portable_alpha_0.25   0.25                none            50   0.651600     0.654466
+   portable         portable_alpha_0.50   0.50                none            50   0.639856     0.638623
+   portable         portable_alpha_1.00   1.00                none            50   0.614125     0.617895
+   portable         portable_alpha_1.50   1.50                none            50   0.583611     0.580467
+nonportable             nonportable_low   1.00                 low            50   0.608089     0.602669
+nonportable        nonportable_moderate   1.00            moderate            50   0.613928     0.610289
+nonportable            nonportable_high   1.00                high            50   0.725913     0.738660
+
+ablation_results_summary:
+                     diagnostic    auroc    auprc  accuracy_threshold_0.66  spearman_heterogeneity
+                     CDDR alone 0.454933 0.370194                 0.428571                0.012059
+       disease-axis angle alone 0.645400 0.515028                 0.428571                0.324040
+                      BPG alone 0.580133 0.519709                 0.605714                0.251222
+               LOCO AUROC alone 0.502233 0.450044                 0.491429                0.139357
+      feature instability alone 0.434167 0.389556                 0.431429               -0.143612
+ heterogeneity proportion alone 0.771633 0.754990                 0.571429                0.603135
+ MBPI without feature stability 0.626033 0.606306                 0.617143                0.346684
+     MBPI without heterogeneity 0.591433 0.528786                 0.440000                0.280054
+MBPI without prediction metrics 0.693233 0.652289                 0.585714                0.448244
+                      full MBPI 0.619333 0.595906                 0.614286                0.334399
+
+warnings_or_missing_inputs:
+- Fast bootstrap recomputed CDDR and disease-axis angle from resampled CLR matrices; prediction, feature-stability, and genus-level heterogeneity components were held at observed summary values.

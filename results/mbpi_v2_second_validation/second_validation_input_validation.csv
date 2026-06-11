@@ -1,0 +1,8 @@
+check,status,value,notes
+dataset_source,pass,https://doi.org/10.57745/7IVO3E,Recherche Data Gouv/MetaGenoPolis CRC benchmark.
+abundance_metadata_sample_overlap,pass,2340/2340 metadata rows matched abundance columns,The abundance table sample columns matched the metadata sample field exactly.
+phenotype_filter,pass,"retained class in {CRC, healthy}; excluded adenoma and to_exclude=yes rows",No adenoma samples were merged into either binary class.
+cohort_filter,pass,12 cohorts retained with >= 10 samples per class,"PRJNA397112: CRC=0, healthy=74; PRJNA531273: CRC=11, healthy=0; PRJNA608088: CRC=6, healthy=12"
+sample_count,pass,1850,"{0: 970, 1: 880}"
+feature_filter,pass,413 features retained from 2543 species,Non-zero prevalence threshold=0.2; CLR pseudocount=1.71713775033e-10.
+retained_cohort_counts,pass,"[{""study_accession"":""PRJDB4176"",""CRC"":257,""healthy"":290},{""study_accession"":""PRJEB10878"",""CRC"":70,""healthy"":53},{""study_accession"":""PRJEB12449"",""CRC"":50,""healthy"":52},{""study_accession"":""PRJEB27928"",""CRC"":21,""healthy"":58},{""study_accession"":""PRJEB6070"",""CRC"":87,""healthy"":65},{""study_accession"":""PRJEB7774"",""CRC"":34,""healthy"":63},{""study_accession"":""PRJNA389927"",""CRC"":15,""healthy"":15},{""study_accession"":""PRJNA429097"",""CRC"":96,""healthy"":93},{""study_accession"":""PRJNA447983"",""CRC"":57,""healthy"":48},{""study_accession"":""PRJNA731589"",""CRC"":68,""healthy"":76},{""study_accession"":""PRJNA763023"",""CRC"":95,""healthy"":97},{""study_accession"":""PRJNA961076"",""CRC"":30,""healthy"":60}]","Counts are after phenotype, quality, and minimum-per-class filters."

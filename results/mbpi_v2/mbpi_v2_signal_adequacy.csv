@@ -1,0 +1,7 @@
+stage,component,score,weight,raw_value,source_file,notes
+disease_signal_adequacy,DSAS_pooled_auroc,0.8731503843158879,0.5,median pooled AUROC=0.881195796815,C:\work\pd-microbiome-portability\results\portability_analysis\model_performance_pooled_cv.csv,Higher values indicate stronger usable disease signal.
+disease_signal_adequacy,DSAS_loco_auroc,0.30755213130674525,0.1,median LOCO AUROC=0.547294156736,C:\work\pd-microbiome-portability\results\portability_analysis\model_performance_pooled_cv.csv,Higher values indicate stronger usable disease signal.
+disease_signal_adequacy,DSAS_pd_main_fdr,1.0,0.2,20/62 PD-main q<0.05,C:\work\pd-microbiome-portability\results\fdr\genus_pd_main_effects_fdr.csv,Higher values indicate stronger usable disease signal.
+disease_signal_adequacy,DSAS_fixed_effect_fdr,0.9677419354838709,0.15,12/62 FE q<0.05,C:\work\pd-microbiome-portability\results\fdr\genus_heterogeneity_fdr.csv,Higher values indicate stronger usable disease signal.
+disease_signal_adequacy,DSAS_effect_size,1.0,0.05,median abs beta among PD-main q<0.05=0.27057596142,C:\work\pd-microbiome-portability\results\fdr\genus_pd_main_effects_fdr.csv,Higher values indicate stronger usable disease signal.
+disease_signal_adequacy,DSAS,0.8624916956111991,1.0,weighted DSAS,C:\work\pd-microbiome-portability\results\fdr\genus_heterogeneity_fdr.csv; C:\work\pd-microbiome-portability\results\fdr\genus_pd_main_effects_fdr.csv; C:\work\pd-microbiome-portability\results\portability_analysis\model_performance_pooled_cv.csv,usable disease signal

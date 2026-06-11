@@ -1,0 +1,57 @@
+MBPI-v2 run log
+date_time: 2026-06-08T17:39:48
+repository_root: C:\work\pd-microbiome-portability
+command: python scripts/mbpi_v2/run_mbpi_v2_pipeline.py --simulation-reps 50 --bootstrap-B 500 --seed 20260608
+selected_prs_strategy: nonnegative_logistic
+
+input_files_used:
+- C:\work\pd-microbiome-portability\results\portability_analysis\dataset_clr.csv | found=True | sha256=edd504b01ff5f97fb0de9f42bf3f2d04793e298ed9340baaac5fa265d8659392
+- C:\work\pd-microbiome-portability\results\portability_analysis\model_performance_pooled_cv.csv | found=True | sha256=e78986b33f0a70c3e8d8c971a3c8b054cf64644bee8df7792d02f190c26fe29e
+- C:\work\pd-microbiome-portability\results\portability_analysis\feature_stability_summary.csv | found=True | sha256=5c136219f7fe970ef9e4c70287efd775095fde8ce85115cf9aa7b954b8896cbe
+- C:\work\pd-microbiome-portability\results\fdr\genus_pd_main_effects_fdr.csv | found=True | sha256=976f48cae160d1e2818f2e99ee3491c52127c170faf2673779e0bb46453449a9
+- C:\work\pd-microbiome-portability\results\fdr\genus_heterogeneity_fdr.csv | found=True | sha256=435fbccede4cca60a701dee5dd9cedb16db3b369b6c6a644d7581c1c8b3fc0cb
+- C:\work\pd-microbiome-portability\results\fdr\genus_disease_by_cohort_interactions_fdr.csv | found=True | sha256=fd30a94f35539211e817a3cbdc68b4a7b3aa231c09159cfdaf1ab5a61056517a
+
+number_of_samples: 683
+number_of_genera: 62
+cohort_counts: {'Finland': 148, 'Malaysia': 198, 'USA': 337}
+disease_counts: {('Finland', 0): 74, ('Finland', 1): 74, ('Malaysia', 0): 97, ('Malaysia', 1): 101, ('USA', 0): 133, ('USA', 1): 204}
+
+DSAS_observed: 0.8624916956111991
+DSAS_95_CI: 0.7800255280761056 to 0.8673304052886185
+PRS_observed: 0.9999992267357908
+PRS_95_CI: 0.9999988494333764 to 0.999999998010951
+MBPI_v2_final_class: non-portable
+
+selected_weights:
+- S_CDDR: 0.0
+- S_angle: 0.1051236200970014
+- S_BPG: 0.0
+- S_LOCO: 0.0
+- S_feature: 0.014118108772257
+- S_heterogeneity: 0.8807582711307415
+
+simulation_summary:
+     regime                     setting  n_replicates  DSAS_median  PRS_nonnegative_logistic_median  nonportable_fraction
+       null null_permuted_within_cohort            50     0.065272                         0.264692                  0.00
+   portable         portable_alpha_0.25            50     0.331433                         0.346483                  0.00
+   portable         portable_alpha_0.50            50     0.496760                         0.234694                  0.00
+   portable         portable_alpha_1.00            50     0.720774                         0.266572                  0.00
+   portable         portable_alpha_1.50            50     0.797142                         0.211275                  0.04
+nonportable             nonportable_low            50     0.725214                         0.260082                  0.04
+nonportable        nonportable_moderate            50     0.710621                         0.461796                  0.24
+nonportable            nonportable_high            50     0.460348                         0.979432                  0.00
+
+ablation_summary:
+                                        diagnostic                            task    auroc    auprc                                             notes
+                      DSAS: null vs disease signal          null_vs_disease_signal 0.998857 0.999842                  Acceptance target AUROC >= 0.80.
+                         PRS: elastic_net_positive         portable_vs_nonportable 0.724400 0.716156        PRS calibration excludes null simulations.
+                                 PRS: equal_weight         portable_vs_nonportable 0.619333 0.595906        PRS calibration excludes null simulations.
+                          PRS: heterogeneity_alone         portable_vs_nonportable 0.771633 0.754990        PRS calibration excludes null simulations.
+                           PRS: manual_constrained         portable_vs_nonportable 0.774300 0.785490        PRS calibration excludes null simulations.
+                         PRS: nonnegative_logistic         portable_vs_nonportable 0.777800 0.788833        PRS calibration excludes null simulations.
+                               MBPI-v2 gated score nonportable_vs_null_or_portable 0.871973 0.802086 Uses DSAS multiplied by PRS_nonnegative_logistic.
+Null false non-portability/cohort-conditioned rate                  null_guardrail      NaN      NaN                                               0.0
+
+warnings_or_limitations:
+- Bootstrap recomputed genus-level signal, fixed-effect signal, CDDR, disease-axis angle, and heterogeneity; observed multi-classifier prediction and feature-stability summaries were held fixed.

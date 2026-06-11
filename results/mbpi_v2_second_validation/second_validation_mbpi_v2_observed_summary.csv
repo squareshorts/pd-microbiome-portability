@@ -1,0 +1,2 @@
+DSAS,DSAS_ci_low,DSAS_ci_high,DSAS_class,PRS,PRS_ci_low,PRS_ci_high,PRS_strategy,PRS_equal_weight,MBPI_v2_score,MBPI_v2_score_ci_low,MBPI_v2_score_ci_high,final_class,interpretation
+0.8348024053021467,0.8348024053021467,0.8348024053021467,usable disease signal,1.0,1.0,1.0,nonnegative_logistic,0.4502027568603076,0.8348024053021467,0.8348024053021467,0.8348024053021467,non-portable,Detectable disease signal with cohort-conditioned non-portability support.

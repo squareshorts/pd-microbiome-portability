@@ -1,0 +1,5 @@
+DEBIAS-M is installed. Attempting to run...
+Note: DEBIAS-M typically requires phenotype labels for all samples to perform correction simultaneously.
+Since strict LOCO validation prohibits the use of held-out phenotype labels during correction, applying DEBIAS-M jointly across all cohorts is a LEAKY/INVALID mode for LOCO.
+Attempting to run DEBIAS-M without test phenotype labels is not natively supported by the standard debiasm.debias function which expects complete metadata.
+Conclusion: DEBIAS-M is not valid for strict LOCO under the available workflow without leaking test labels. Will not produce DEBIAS-M corrected features for strict LOCO prediction.

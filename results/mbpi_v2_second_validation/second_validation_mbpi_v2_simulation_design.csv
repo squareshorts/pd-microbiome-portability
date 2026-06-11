@@ -1,0 +1,9 @@
+setting,regime,alpha,heterogeneity_label,heterogeneity_level,description
+null_permuted_within_cohort,null,0.0,none,0.0,Disease labels permuted within cohort; cohort structure preserved.
+portable_alpha_0.25,portable,0.25,none,0.0,Common sparse disease-effect vector injected into PD samples in every cohort.
+portable_alpha_0.50,portable,0.5,none,0.0,Common sparse disease-effect vector injected into PD samples in every cohort.
+portable_alpha_1.00,portable,1.0,none,0.0,Common sparse disease-effect vector injected into PD samples in every cohort.
+portable_alpha_1.50,portable,1.5,none,0.0,Common sparse disease-effect vector injected into PD samples in every cohort.
+nonportable_low,nonportable,1.0,low,0.25,Cohort-specific disease-effect vectors injected at fixed total magnitude.
+nonportable_moderate,nonportable,1.0,moderate,0.5,Cohort-specific disease-effect vectors injected at fixed total magnitude.
+nonportable_high,nonportable,1.0,high,1.0,Cohort-specific disease-effect vectors injected at fixed total magnitude.

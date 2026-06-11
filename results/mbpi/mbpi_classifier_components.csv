@@ -1,0 +1,4 @@
+Model,Mean_AUROC,Mean_LOCO_AUROC,BPG_AUROC,S_BPG,S_LOCO,source,Mean_Jaccard_Top20,S_feature
+ElasticNet,0.8096344850793069,0.5996493518391738,0.2099851332401331,0.6781710156940352,0.8007012963216524,C:\work\pd-microbiome-portability\results\portability_analysis\model_performance_pooled_cv.csv,0.3343220862686936,0.6656779137313065
+RandomForest,0.8811957968154913,0.5147935269386162,0.3664022698768751,0.9611917889383846,0.9704129461227675,C:\work\pd-microbiome-portability\results\portability_analysis\model_performance_pooled_cv.csv,0.3804050355774493,0.6195949644225507
+XGBoost,0.9186690986402362,0.5472941567356607,0.3713749419045754,0.8870369060213331,0.9054116865286785,C:\work\pd-microbiome-portability\results\portability_analysis\model_performance_pooled_cv.csv,0.2247474747474747,0.7752525252525253

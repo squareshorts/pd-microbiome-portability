@@ -1,0 +1,31 @@
+strategy,component,weight,coefficient,intercept,score_mode,calibration_auroc,calibration_auprc,notes
+equal_weight,S_CDDR,0.16666666666666669,0.16666666666666666,0.0,weighted_mean,0.5933333333333333,0.5237993371039348,Equal weights across all PRS components.
+equal_weight,S_angle,0.16666666666666669,0.16666666666666666,0.0,weighted_mean,0.5933333333333333,0.5237993371039348,Equal weights across all PRS components.
+equal_weight,S_BPG,0.16666666666666669,0.16666666666666666,0.0,weighted_mean,0.5933333333333333,0.5237993371039348,Equal weights across all PRS components.
+equal_weight,S_LOCO,0.16666666666666669,0.16666666666666666,0.0,weighted_mean,0.5933333333333333,0.5237993371039348,Equal weights across all PRS components.
+equal_weight,S_feature,0.16666666666666669,0.16666666666666666,0.0,weighted_mean,0.5933333333333333,0.5237993371039348,Equal weights across all PRS components.
+equal_weight,S_heterogeneity,0.16666666666666669,0.16666666666666666,0.0,weighted_mean,0.5933333333333333,0.5237993371039348,Equal weights across all PRS components.
+nonnegative_logistic,S_CDDR,0.0,0.0,-1.2357709277509785,logistic_probability,0.77,0.7728508139034455,Non-negative logistic regression coefficients normalized; log_loss=0.54291.
+nonnegative_logistic,S_angle,0.002505893155789201,0.26244173950689126,-1.2357709277509785,logistic_probability,0.77,0.7728508139034455,Non-negative logistic regression coefficients normalized; log_loss=0.54291.
+nonnegative_logistic,S_BPG,0.0,0.0,-1.2357709277509785,logistic_probability,0.77,0.7728508139034455,Non-negative logistic regression coefficients normalized; log_loss=0.54291.
+nonnegative_logistic,S_LOCO,0.0,0.0,-1.2357709277509785,logistic_probability,0.77,0.7728508139034455,Non-negative logistic regression coefficients normalized; log_loss=0.54291.
+nonnegative_logistic,S_feature,0.0,0.0,-1.2357709277509785,logistic_probability,0.77,0.7728508139034455,Non-negative logistic regression coefficients normalized; log_loss=0.54291.
+nonnegative_logistic,S_heterogeneity,0.9974941068442108,104.46737840489524,-1.2357709277509785,logistic_probability,0.77,0.7728508139034455,Non-negative logistic regression coefficients normalized; log_loss=0.54291.
+elastic_net_positive,S_CDDR,0.0,0.0,-0.16079170267726894,logistic_probability,0.6933333333333334,0.5971343278930662,Elastic-net logistic coefficients truncated at zero; positive coefficients used as calibrated probability terms.; positive_coef=S_CDDR:0;S_angle:0;S_BPG:0.578604;S_LOCO:0;S_feature:0;S_heterogeneity:0
+elastic_net_positive,S_angle,0.0,0.0,-0.16079170267726894,logistic_probability,0.6933333333333334,0.5971343278930662,Elastic-net logistic coefficients truncated at zero; positive coefficients used as calibrated probability terms.; positive_coef=S_CDDR:0;S_angle:0;S_BPG:0.578604;S_LOCO:0;S_feature:0;S_heterogeneity:0
+elastic_net_positive,S_BPG,1.0,0.5786041448934854,-0.16079170267726894,logistic_probability,0.6933333333333334,0.5971343278930662,Elastic-net logistic coefficients truncated at zero; positive coefficients used as calibrated probability terms.; positive_coef=S_CDDR:0;S_angle:0;S_BPG:0.578604;S_LOCO:0;S_feature:0;S_heterogeneity:0
+elastic_net_positive,S_LOCO,0.0,0.0,-0.16079170267726894,logistic_probability,0.6933333333333334,0.5971343278930662,Elastic-net logistic coefficients truncated at zero; positive coefficients used as calibrated probability terms.; positive_coef=S_CDDR:0;S_angle:0;S_BPG:0.578604;S_LOCO:0;S_feature:0;S_heterogeneity:0
+elastic_net_positive,S_feature,0.0,0.0,-0.16079170267726894,logistic_probability,0.6933333333333334,0.5971343278930662,Elastic-net logistic coefficients truncated at zero; positive coefficients used as calibrated probability terms.; positive_coef=S_CDDR:0;S_angle:0;S_BPG:0.578604;S_LOCO:0;S_feature:0;S_heterogeneity:0
+elastic_net_positive,S_heterogeneity,0.0,0.0,-0.16079170267726894,logistic_probability,0.6933333333333334,0.5971343278930662,Elastic-net logistic coefficients truncated at zero; positive coefficients used as calibrated probability terms.; positive_coef=S_CDDR:0;S_angle:0;S_BPG:0.578604;S_LOCO:0;S_feature:0;S_heterogeneity:0
+manual_constrained,S_CDDR,0.0,0.0,0.0,weighted_mean,0.6333333333333333,0.6535738602513964,Manual heterogeneity-dominant non-negative score with disease-axis geometry support.
+manual_constrained,S_angle,0.2,0.2,0.0,weighted_mean,0.6333333333333333,0.6535738602513964,Manual heterogeneity-dominant non-negative score with disease-axis geometry support.
+manual_constrained,S_BPG,0.0,0.0,0.0,weighted_mean,0.6333333333333333,0.6535738602513964,Manual heterogeneity-dominant non-negative score with disease-axis geometry support.
+manual_constrained,S_LOCO,0.0,0.0,0.0,weighted_mean,0.6333333333333333,0.6535738602513964,Manual heterogeneity-dominant non-negative score with disease-axis geometry support.
+manual_constrained,S_feature,0.0,0.0,0.0,weighted_mean,0.6333333333333333,0.6535738602513964,Manual heterogeneity-dominant non-negative score with disease-axis geometry support.
+manual_constrained,S_heterogeneity,0.8,0.8,0.0,weighted_mean,0.6333333333333333,0.6535738602513964,Manual heterogeneity-dominant non-negative score with disease-axis geometry support.
+heterogeneity_alone,S_CDDR,0.0,0.0,0.0,weighted_mean,0.7916666666666667,0.7518614718614718,"Benchmark, not selected unless it is the best calibrated strategy."
+heterogeneity_alone,S_angle,0.0,0.0,0.0,weighted_mean,0.7916666666666667,0.7518614718614718,"Benchmark, not selected unless it is the best calibrated strategy."
+heterogeneity_alone,S_BPG,0.0,0.0,0.0,weighted_mean,0.7916666666666667,0.7518614718614718,"Benchmark, not selected unless it is the best calibrated strategy."
+heterogeneity_alone,S_LOCO,0.0,0.0,0.0,weighted_mean,0.7916666666666667,0.7518614718614718,"Benchmark, not selected unless it is the best calibrated strategy."
+heterogeneity_alone,S_feature,0.0,0.0,0.0,weighted_mean,0.7916666666666667,0.7518614718614718,"Benchmark, not selected unless it is the best calibrated strategy."
+heterogeneity_alone,S_heterogeneity,1.0,1.0,0.0,weighted_mean,0.7916666666666667,0.7518614718614718,"Benchmark, not selected unless it is the best calibrated strategy."

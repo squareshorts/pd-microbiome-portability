@@ -1,0 +1,10 @@
+true_class,predicted_class,n
+no usable disease signal,no usable disease signal,50
+no usable disease signal,portable/indeterminate,0
+no usable disease signal,non-portable,0
+portable/indeterminate,no usable disease signal,24
+portable/indeterminate,portable/indeterminate,168
+portable/indeterminate,non-portable,8
+non-portable,no usable disease signal,0
+non-portable,portable/indeterminate,120
+non-portable,non-portable,30

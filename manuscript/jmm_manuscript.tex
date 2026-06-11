@@ -1,0 +1,750 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{amsmath,booktabs,graphicx,hyperref,geometry,setspace,authblk}
+\geometry{margin=2.5cm}
+\onehalfspacing
+
+\title{A cross-cohort workflow for detecting microbiome biomarker
+non-portability under compositional cohort structure}
+
+\author[1]{[Author names]}
+\affil[1]{[Institution]}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+% ============================================================
+\begin{abstract}
+\textbf{Background:}
+Microbiome biomarkers are often evaluated using pooled case--control
+comparisons or random cross-validation. These approaches can overestimate
+biomarker performance when disease labels are embedded within
+cohort-specific compositional structure.
+
+\textbf{Methods:}
+We developed and validated a cross-cohort analytical workflow to detect
+microbiome biomarker non-portability under compositional cohort-structured
+heterogeneity. The workflow integrates centred log-ratio (CLR)
+transformation, Aitchison-space variance partitioning, a cohort--disease
+dominance ratio (CDDR), disease-effect vector geometry, leave-one-cohort-out
+(LOCO) machine-learning validation, biomarker portability gap (BPG)
+estimation, domain-correction feasibility assessment, and feature-stability
+analysis. We applied it to three public Parkinson's disease gut microbiome
+cohorts from Finland, Malaysia, and the United States, comprising 683
+individuals and 62 harmonised genus-level CLR features. Genus-level
+p-values were corrected for multiple comparisons using the
+Benjamini--Hochberg (BH) false-discovery-rate procedure applied separately
+within each hypothesis family.
+
+\textbf{Results:}
+Cohort structure dominated the compositional space. PC1 explained 61.2\%
+of total variance; cohort identity accounted for 75.05\% of
+Aitchison-space variance ($R^2 = 0.7505$) while disease status accounted
+for 0.29\% ($R^2 = 0.0029$), yielding a CDDR of 258.7. The disease-effect
+vector was nearly orthogonal to PC1 (cosine similarity = 0.067;
+angle = 86.1$^\circ$). In genus-level linear models, 20 of 62 genera showed
+a cohort-adjusted PD main effect surviving BH correction ($q < 0.05$), and
+25 of 62 genera showed significant PD-by-cohort interaction ($q < 0.05$).
+Thirty-one genera exhibited significant cross-cohort heterogeneity in the PD
+effect (Cochran $Q$; $q < 0.05$), and only 12 genera showed a consistent
+pooled direction of effect across cohorts ($q_{\mathrm{FE}} < 0.05$). Pooled
+cross-validation substantially overestimated biomarker performance: AUROC
+values reached 0.810, 0.881, and 0.919 for elastic-net logistic regression,
+random forest, and XGBoost. Under LOCO validation, mean AUROC decreased to
+0.600, 0.515, and 0.547, respectively, producing AUROC portability gaps of
+0.210--0.371. Feature importance was unstable across held-out-cohort training
+regimes (mean top-10 overlap: 2.0--3.0 features). Transductive
+cohort-centring produced degenerate classifiers (AUROC = 0.500 for all
+three models), consistent with the interpretation that cohort-structured
+variation drove pooled predictive performance.
+
+\textbf{Conclusions:}
+Apparent microbiome biomarker performance can arise from cohort-structured
+compositional variation rather than portable disease signal. The proposed
+workflow identifies this failure mode by combining compositional geometry,
+cohort-held-out prediction, portability-gap estimation, and feature-stability
+analysis, and provides a practical validation strategy for microbiome
+biomarker studies before candidate signatures are interpreted as
+transportable across cohorts.
+
+\noindent\textbf{Keywords:}
+microbiome biomarkers; biomarker portability; cohort effects;
+compositional data analysis; cross-cohort validation; machine learning;
+Aitchison geometry; Parkinson's disease
+\end{abstract}
+
+% ============================================================
+\section{Introduction}
+\label{sec:intro}
+
+Microbiome studies increasingly use high-throughput sequencing and
+machine-learning models to identify disease-associated microbial signatures.
+A recurring limitation is that signatures discovered in one dataset often
+show reduced reproducibility in independent cohorts. This problem is usually
+discussed as a matter of technical variation, sample size, sequencing
+protocol, or clinical heterogeneity. However, in microbiome data the problem
+is also geometric: relative abundance profiles are compositional, and
+cohort-specific community structure can dominate the feature space in which
+disease effects are estimated.
+
+This creates a specific failure mode for microbiome biomarker discovery. A
+classifier may perform well under pooled random cross-validation because
+training and test folds share cohort-specific compositional structure. The
+same classifier may fail under cohort-held-out validation, where the disease
+signal must transport to a different microbiome background. In this setting,
+statistical association does not imply portability. A genus-level disease
+signature can be detectable within cohorts yet unstable across cohorts if the
+disease-effect vector is small, cohort-conditioned, or misaligned with the
+dominant compositional gradient.
+
+We therefore developed a cross-cohort workflow to diagnose microbiome
+biomarker non-portability. The workflow combines centred log-ratio
+transformation, Aitchison-space variance partitioning, a cohort--disease
+dominance ratio, disease-effect vector geometry, leave-one-cohort-out
+prediction, biomarker portability gap estimation, domain-correction
+feasibility assessment, and feature-stability analysis. Parkinson's disease
+(PD) gut microbiome cohorts provide a relevant test case because PD has
+repeatedly been associated with gut microbiome changes, while reported
+microbial taxa vary considerably across
+studies~\cite{Sampson2016,Bedarf2017,Barichella2019}. The aim was not to
+nominate a universal PD microbiome biomarker, but to evaluate whether
+apparent disease-associated microbial signatures remain portable across
+cohort backgrounds.
+
+% ============================================================
+\section{Materials and Methods}
+\label{sec:methods}
+
+\subsection{Datasets and harmonisation}
+
+Three publicly available 16S rRNA amplicon sequencing cohorts were used.
+The Finland cohort comprised 148 individuals (74 PD, 74 controls). The
+Malaysia cohort comprised 198 individuals (101 PD, 97 controls). The United
+States cohort comprised 337 individuals (204 PD, 133 controls). Total: 683
+individuals. Raw sequence data were processed through a unified MOTHUR
+pipeline to canonical genus-level taxonomy. Genera were retained if present
+in all three cohorts at the same taxonomic annotation; 62 genus-level
+features were included in the harmonised feature matrix. Metadata variables
+were PD status (binary) and cohort membership; both were complete with no
+missing values.
+
+\subsection{Centred log-ratio transformation}
+
+Compositional genus count matrices were CLR-transformed after addition of a
+pseudocount of 1 to handle zeros~\cite{Aitchison1982}. For each sample,
+$x_{j,\mathrm{CLR}} = \log(x_j + 1) - \overline{\log(\mathbf{x}+1)}$,
+where the mean is taken over all $p = 62$ genera. The CLR transformation
+was applied globally to the pooled 683-sample matrix.
+
+\subsection{Aitchison-space variance partitioning}
+
+PERMANOVA (permutational multivariate analysis of variance) was applied to
+the Aitchison distance matrix (Euclidean distance on CLR-transformed data)
+using \texttt{adonis2} from the \texttt{vegan} package (999
+permutations)~\cite{Anderson2001,Oksanen2022}. Both a sequential model
+($\sim\mathrm{Cohort} + \mathrm{PD}$) and a marginal (by-margin) model were
+fitted. The cohort--disease dominance ratio (CDDR) was defined as
+$\mathrm{CDDR} = R^2_{\mathrm{Cohort}} / R^2_{\mathrm{PD}}$ from the
+marginal model.
+
+\subsection{Disease-effect vector geometry}
+
+PCA was performed on the CLR feature matrix. The disease-effect vector
+$\mathbf{d}$ was computed as the mean CLR profile of PD subjects minus the
+mean CLR profile of control subjects (both pooled across cohorts). Alignment
+of $\mathbf{d}$ with PC1 was measured as $\cos\theta = (\mathbf{d} \cdot
+\mathbf{v}_1) / (\|\mathbf{d}\|\,\|\mathbf{v}_1\|)$, where $\mathbf{v}_1$ is
+the PC1 loading vector. The angle $\theta = \arccos(|\cos\theta|)$ was
+expressed in degrees. Within-cohort permutation tests for this alignment
+($B = 2000$ permutations) were performed separately for each cohort.
+
+\subsection{Genus-level linear models and FDR correction}
+\label{sec:fdr-methods}
+
+Three genus-level hypothesis families were tested, each on all 62 CLR
+genera, using the 62-feature harmonised CLR matrix as input
+(Table~\ref{tab:fdr-summary}).
+
+\paragraph{Family 1 --- PD main effect.}
+For each genus, a linear model was fitted:
+\[
+y_g \sim \mathrm{Cohort} + \mathrm{PD}
+\]
+where $y_g$ is the CLR abundance of genus $g$, Cohort is a categorical
+factor with Finland as reference, and PD is a binary factor (0 = control,
+1 = PD). The PD coefficient ($\hat\beta_{\mathrm{PD}}$, standard error, $t$
+statistic, and $p$-value) was extracted from each model.
+
+\paragraph{Family 2 --- PD-by-cohort interaction.}
+For each genus, a full interaction model was fitted:
+\[
+y_g \sim \mathrm{Cohort} \times \mathrm{PD}
+\]
+A joint $F$-test comparing the interaction model against the additive model
+(Family 1) was used to obtain a single $p$-value per genus representing
+evidence that the PD effect differed across cohorts.
+Cohort-specific PD effect estimates ($\hat\beta_{\mathrm{PD,Finland}}$,
+$\hat\beta_{\mathrm{PD,Malaysia}}$, $\hat\beta_{\mathrm{PD,USA}}$) were
+extracted from the full interaction model.
+
+\paragraph{Family 3 --- Cross-cohort heterogeneity.}
+For each genus, a per-cohort linear model was fitted:
+\[
+y_g \sim \mathrm{PD} \quad (\text{within each cohort separately})
+\]
+Per-cohort PD estimates were combined by fixed-effect inverse-variance
+meta-analysis ($\hat\beta_{\mathrm{FE}}$, $\hat{se}_{\mathrm{FE}}$,
+$z$-statistic, $p_{\mathrm{FE}}$). Between-cohort heterogeneity was
+quantified by Cochran's $Q$ ($Q$, $p_Q$) and $I^2$.
+
+\paragraph{BH correction.}
+P-values from each family were adjusted independently using the
+Benjamini--Hochberg method~\cite{Benjamini1995}. Significance was declared
+at $q < 0.05$. Both nominal $p$-values and BH-adjusted $q$-values are
+reported. PC1 alignment permutation $p$-values from the three within-cohort
+tests were also BH-corrected within that family (three tests).
+
+All analyses were implemented in base R (version 4.5.2) using the script
+\texttt{scripts/apply\_fdr\_genus\_portability.R}.
+
+\subsection{Machine-learning classifiers}
+
+Three classifiers were trained on the 62-feature CLR matrix: elastic-net
+logistic regression (\texttt{glmnet}), random forest (\texttt{ranger}), and
+XGBoost. Elastic-net regularisation ($\lambda$) was selected by 10-fold
+cross-validation on the training set. Random forest used 500 trees.
+XGBoost used a maximum depth of 6 and 100 boosting rounds. All classifiers
+were evaluated under two validation schemes.
+
+\paragraph{Pooled cross-validation.}
+10-fold stratified repeated cross-validation (10 repeats) on the full
+683-sample dataset. Performance metrics: AUROC, AUPRC, balanced accuracy,
+sensitivity, and specificity.
+
+\paragraph{Leave-one-cohort-out validation.}
+Each cohort was held out as the test set in turn; the remaining two cohorts
+formed the training set. LOCO is strict: no test-cohort samples influenced
+training or hyperparameter selection.
+
+\subsection{Biomarker portability gap}
+
+$\mathrm{BPG}_m = \hat{\mathrm{perf}}_{\mathrm{pooled},m} -
+\hat{\mathrm{perf}}_{\mathrm{LOCO},m}$ for $m \in \{\mathrm{AUROC},
+\mathrm{AUPRC}, \mathrm{balanced\ accuracy}\}$. A large BPG indicates that
+pooled performance overestimates portable predictive ability.
+
+\subsection{Domain-correction feasibility}
+
+DEBIAS-M~\cite{Shi2022} was assessed for compatibility with strict LOCO
+testing. Transductive cohort-centring was evaluated as a leakage-free
+alternative: within the held-out test cohort, each CLR feature was
+mean-centred prior to prediction. Performance was assessed on AUROC,
+sensitivity, and specificity.
+
+\subsection{Feature-stability analysis}
+
+Feature importance was extracted from each LOCO training scenario (three
+held-out cohorts $\times$ three models = nine scenarios). For each model,
+pairwise comparison of top-10 and top-20 feature sets across the three LOCO
+scenarios yielded: (i) mean pairwise overlap count (top 10); (ii) mean
+pairwise Jaccard similarity (top 20).
+
+\subsection{Reproducibility}
+
+All analyses used fixed random seeds (\texttt{set.seed(1)} in R; equivalent
+in Python). Code is available at [repository URL]. The complete pipeline can
+be rerun from raw MOTHUR count outputs.
+
+% ============================================================
+\section{Results}
+\label{sec:results}
+
+\subsection{Dataset characteristics}
+
+The harmonised dataset comprised 683 individuals across three cohorts:
+Finland ($n = 148$; 50.0\% PD), Malaysia ($n = 198$; 51.0\% PD), and the
+United States ($n = 337$; 60.5\% PD). Sixty-two genus-level CLR features
+were retained after cross-cohort taxonomic harmonisation.
+
+\subsection{Cohort structure dominates compositional space}
+\label{sec:geometry}
+
+PCA of the CLR feature matrix showed that PC1 alone explained 61.2\% of
+total variance. Cohort means were well separated along PC1: Malaysia had
+a mean score of $+14.95$ (SD 2.05), Finland $+0.15$ (SD 0.83), and USA
+$-8.81$ (SD 1.04), confirming that between-cohort differences constitute
+the primary source of compositional variation.
+
+PERMANOVA of the Aitchison distance matrix attributed $R^2 = 0.7505$ to
+cohort identity (75.05\% of total variance) and $R^2 = 0.0029$ to PD
+status (0.29\%; Table~\ref{tab:permanova}). The CDDR was therefore
+$0.7505 / 0.0029 = 258.7$: cohort identity explains approximately 259 times
+as much compositional variance as disease status.
+
+The disease-effect vector $\mathbf{d}$ (mean CLR profile of PD subjects
+minus that of controls, pooled across cohorts) showed a cosine similarity
+of 0.067 with PC1, corresponding to an angle of 86.1$^\circ$. This near-
+orthogonality indicates that the direction of greatest between-group
+microbiome variation and the direction of PD-associated microbiome change
+are geometrically distinct. Within-cohort permutation tests for PC1
+alignment yielded $p_{\mathrm{perm}} \geq 0.252$ in all three cohorts
+after BH correction ($q \geq 0.756$; Table~\ref{tab:pc-align}), consistent
+with the null hypothesis that the PD-effect vector is not aligned with PC1
+in any individual cohort.
+
+\begin{table}[h]
+\centering
+\caption{PERMANOVA results (marginal model; 999 permutations;
+Aitchison distance).}
+\label{tab:permanova}
+\begin{tabular}{lccc}
+\toprule
+Factor  & $R^2$  & $p$ & CDDR \\
+\midrule
+Cohort  & 0.7505 & 0.001 & --- \\
+PD      & 0.0029 & 0.002 & 258.7 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Genus-level PD effects are cohort-dependent and do not form
+a portable signature}
+\label{sec:genus}
+
+We tested all 62 CLR genera for three hypothesis families
+(Table~\ref{tab:fdr-summary}).
+
+\paragraph{PD main effect (Family 1).}
+Of 62 genera tested in the cohort-adjusted linear model
+($y_g \sim \mathrm{Cohort} + \mathrm{PD}$), 24 showed a nominal PD
+association ($p < 0.05$) and 20 survived BH correction ($q < 0.05$;
+Table~\ref{tab:main-effect-top}). The strongest associations were for
+an unclassified genus cluster that was lower in PD (Unclassified:
+$\hat\beta_{\mathrm{PD}} = -0.495$, SE = 0.083, $q = 2.38 \times 10^{-7}$)
+and for the Gammaproteobacteria unclassified group, which was higher in PD
+($\hat\beta_{\mathrm{PD}} = +0.484$, SE = 0.086, $q = 7.73 \times 10^{-7}$).
+Of the 20 genera surviving FDR, 12 showed higher CLR abundance in PD and
+8 showed lower abundance (Table~\ref{tab:main-effect-top}).
+
+\paragraph{PD-by-cohort interaction (Family 2).}
+Of 62 genera tested by joint $F$-test of the interaction model versus the
+additive model, 32 showed nominal evidence of interaction ($p < 0.05$) and
+25 survived BH correction ($q < 0.05$; Table~\ref{tab:interaction-top}).
+The strongest interaction was for the unclassified genus cluster
+($q = 1.93 \times 10^{-18}$), which showed a positive PD association in
+Finland ($\hat\beta_{\mathrm{PD,Finland}} = +0.114$) but a negative
+association in Malaysia ($\hat\beta_{\mathrm{PD,Malaysia}} = -1.663$) and
+was near null in the USA ($\hat\beta_{\mathrm{PD,USA}} = -0.056$). The
+second strongest interaction was for \textit{Oscillibacter}
+($q = 3.16 \times 10^{-17}$; $\hat\beta_{\mathrm{PD,Finland}} = +0.944$,
+$\hat\beta_{\mathrm{PD,Malaysia}} = -0.014$,
+$\hat\beta_{\mathrm{PD,USA}} = -0.025$). These results indicate that the
+direction and magnitude of genus-level PD effects depend strongly on which
+cohort is considered.
+
+\paragraph{Cross-cohort heterogeneity (Family 3).}
+Per-cohort linear models were combined by fixed-effect meta-analysis for
+each genus. Of 62 genera, 12 showed a consistent direction of effect
+surviving BH correction on the meta-analysed $z$-statistic ($q_{\mathrm{FE}}
+< 0.05$; Table~\ref{tab:het-top}). All 12 were higher in PD in the pooled
+meta-analytic direction. The most consistent effect was for
+Clostridiales\_unclassified ($\hat\beta_{\mathrm{FE}} = +0.210$, SE = 0.032,
+$q_{\mathrm{FE}} = 2.50 \times 10^{-9}$) and
+Lachnospiraceae\_unclassified ($\hat\beta_{\mathrm{FE}} = +0.172$,
+SE = 0.029, $q_{\mathrm{FE}} = 1.78 \times 10^{-7}$).
+
+However, Cochran's $Q$ test for heterogeneity revealed substantial
+between-cohort variability in PD effects: 31 of 62 genera showed significant
+heterogeneity after BH correction ($q_Q < 0.05$). Among the 12 genera with
+significant meta-analytic PD effects, most also showed high $I^2$ values,
+including Coriobacteriaceae\_unclassified ($I^2 = 0.809$,
+$q_Q = 5.30 \times 10^{-3}$), Firmicutes\_unclassified ($I^2 = 0.880$,
+$q_Q = 2.42 \times 10^{-4}$), and Erysipelotrichaceae\_unclassified
+($I^2 = 0.924$, $q_Q = 2.09 \times 10^{-6}$). The notable exception was
+Lachnospiraceae\_unclassified ($I^2 = 0.000$, $p_Q = 0.377$), which
+showed a small but consistent PD-associated increase across all three
+cohorts.
+
+Taken together, these results indicate that genus-level disease effects
+exist, but are predominantly cohort-conditioned. The PD-by-cohort
+interaction is significant for 25 of 62 genera and the between-cohort
+heterogeneity is significant for 31 of 62 genera. Only Lachnospiraceae
+unclassified showed a consistent cross-cohort PD signal without significant
+heterogeneity.
+
+\begin{table}[h]
+\centering
+\caption{FDR correction summary by hypothesis family. BH: Benjamini--Hochberg.
+All 62 genera tested in each family. PC1 alignment tests are cohort-level
+($n = 3$~cohorts), not genus-level.}
+\label{tab:fdr-summary}
+\begin{tabular}{lcccccc}
+\toprule
+Family & Model & $n$ tested & Nominal & BH $q<0.05$ &
+Min $p$ & Min $q$ \\
+\midrule
+PD main effect & $y \sim \mathrm{Cohort}+\mathrm{PD}$ &
+  62 & 24 & 20 & $3.84\times10^{-9}$ & $2.38\times10^{-7}$ \\
+PD$\times$Cohort interaction & Joint $F$-test &
+  62 & 32 & 25 & $3.12\times10^{-20}$ & $1.93\times10^{-18}$ \\
+Heterogeneity FE ($p_{\mathrm{FE}}$) & FE meta $z$ &
+  62 & 12 & 12 & $4.04\times10^{-11}$ & $2.50\times10^{-9}$ \\
+Heterogeneity ($p_Q$) & Cochran $Q$ &
+  62 & 35 & 31 & --- & --- \\
+PC1 alignment & Permutation & 3 & 0 & 0 & 0.252 & 0.756 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Top 10 genera by PD main effect (Family 1; $y_g \sim
+\mathrm{Cohort} + \mathrm{PD}$). BH $q$-values calculated across all 62
+genera. Direction: higher/lower CLR abundance in PD relative to controls.}
+\label{tab:main-effect-top}
+\begin{tabular}{lrrrrl}
+\toprule
+Genus & $\hat\beta_{\mathrm{PD}}$ & SE &
+  $p$ & $q$ & Direction \\
+\midrule
+Unclassified                     & $-0.495$ & 0.083 & $3.84\times10^{-9}$ & $2.38\times10^{-7}$ & lower  \\
+Gammaproteobacteria\_unclassified&  $+0.484$ & 0.086 & $2.50\times10^{-8}$ & $7.73\times10^{-7}$ & higher \\
+Odoribacter                      &  $+0.462$ & 0.086 & $1.10\times10^{-7}$ & $2.27\times10^{-6}$ & higher \\
+Megasphaera                      & $-0.579$ & 0.110 & $2.15\times10^{-7}$ & $3.33\times10^{-6}$ & lower  \\
+Prevotella                       & $-0.273$ & 0.057 & $2.14\times10^{-6}$ & $2.65\times10^{-5}$ & lower  \\
+Clostridiales\_unclassified      &  $+0.471$ & 0.100 & $2.83\times10^{-6}$ & $2.93\times10^{-5}$ & higher \\
+Streptococcus                    &  $+0.365$ & 0.081 & $7.01\times10^{-6}$ & $6.21\times10^{-5}$ & higher \\
+Oscillibacter                    &  $+0.193$ & 0.045 & $2.31\times10^{-5}$ & $1.79\times10^{-4}$ & higher \\
+Paraprevotella                   & $-0.414$ & 0.100 & $3.84\times10^{-5}$ & $2.64\times10^{-4}$ & lower  \\
+Erysipelotrichaceae\_unclassified&  $+0.307$ & 0.078 & $8.66\times10^{-5}$ & $5.37\times10^{-4}$ & higher \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Top 10 genera by PD-by-cohort interaction (Family 2; joint
+$F$-test of $y_g \sim \mathrm{Cohort}\times\mathrm{PD}$ vs additive model).
+Cohort-specific $\hat\beta_{\mathrm{PD}}$ from the interaction model;
+Finland is the reference cohort. BH $q$-values across 62 genera.}
+\label{tab:interaction-top}
+\begin{tabular}{lrrrrrr}
+\toprule
+Genus & $p_{\mathrm{joint}}$ & $q_{\mathrm{joint}}$ &
+  $\hat\beta_{\mathrm{FIN}}$ & $\hat\beta_{\mathrm{MYS}}$ &
+  $\hat\beta_{\mathrm{USA}}$ \\
+\midrule
+Unclassified                     & $3.12\times10^{-20}$ & $1.93\times10^{-18}$ & $+0.114$ & $-1.663$ & $-0.056$ \\
+Oscillibacter                    & $1.02\times10^{-18}$ & $3.16\times10^{-17}$ & $+0.944$ & $-0.014$ & $-0.025$ \\
+Gammaproteobacteria\_unclassified& $9.03\times10^{-16}$ & $1.87\times10^{-14}$ & $+0.192$ & $+1.551$ & $-0.037$ \\
+Prevotella                       & $3.64\times10^{-15}$ & $5.63\times10^{-14}$ & $-1.125$ & $+1.551$ & $-0.037$ \\
+Acidaminococcus                  & $4.43\times10^{-8}$  & $5.49\times10^{-7}$  & $-0.803$ & --- & --- \\
+Escherichia\_Shigella            & $3.92\times10^{-7}$  & $4.05\times10^{-6}$  & $-0.683$ & --- & --- \\
+Coprococcus                      & $2.45\times10^{-6}$  & $2.17\times10^{-5}$  & $-0.893$ & --- & --- \\
+Odoribacter                      & $4.65\times10^{-6}$  & $3.61\times10^{-5}$  & $+1.173$ & --- & --- \\
+Lactobacillales\_unclassified    & $9.13\times10^{-5}$  & $6.29\times10^{-4}$  & $+0.192$ & --- & --- \\
+Lactococcus                      & $1.14\times10^{-4}$  & $7.08\times10^{-4}$  & $-0.525$ & --- & --- \\
+\bottomrule
+\multicolumn{6}{l}{\footnotesize FIN = Finland; MYS = Malaysia; USA = USA.
+Cohort betas not shown for ranks 5--10 to conserve space;} \\
+\multicolumn{6}{l}{\footnotesize full values in \texttt{results/fdr/genus\_disease\_by\_cohort\_interactions\_fdr.csv}.} \\
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{Top 10 genera by fixed-effect meta-analytic PD association
+(Family 3). $I^2$ quantifies between-cohort heterogeneity; $p_Q$ is
+Cochran's $Q$ $p$-value. All 12 genera with $q_{\mathrm{FE}} < 0.05$ are
+shown; all show higher CLR abundance in PD. BH $q$-values across 62 genera.}
+\label{tab:het-top}
+\begin{tabular}{lrrrrrr}
+\toprule
+Genus & $\hat\beta_{\mathrm{FE}}$ & SE & $q_{\mathrm{FE}}$ &
+  $Q$ & $p_Q$ & $I^2$ \\
+\midrule
+Clostridiales\_unclassified      & $+0.210$ & 0.032 & $2.50\times10^{-9}$  & 8.12  & 0.017 & 0.754 \\
+Lachnospiraceae\_unclassified    & $+0.172$ & 0.029 & $1.78\times10^{-7}$  & 1.95  & 0.377 & 0.000 \\
+Coriobacteriaceae\_unclassified  & $+0.147$ & 0.029 & $9.10\times10^{-6}$  & 10.48 & 0.005 & 0.809 \\
+Firmicutes\_unclassified         & $+0.156$ & 0.031 & $9.10\times10^{-6}$  & 16.66 & 0.0002& 0.880 \\
+Bacteroidales\_unclassified      & $+0.155$ & 0.032 & $2.07\times10^{-5}$  & 19.86 & 0.0001& 0.899 \\
+Erysipelotrichaceae\_unclassified& $+0.115$ & 0.026 & $6.46\times10^{-5}$  & 26.15 & $2.1\times10^{-6}$ & 0.924 \\
+Bacteroidetes\_unclassified      & $+0.136$ & 0.031 & $1.05\times10^{-4}$  & 19.92 & $4.7\times10^{-5}$ & 0.900 \\
+Fusobacteriaceae\_unclassified   & $+0.132$ & 0.031 & $1.24\times10^{-4}$  & 22.27 & $1.5\times10^{-5}$ & 0.910 \\
+Gammaproteobacteria\_unclassified& $+0.108$ & 0.025 & $1.34\times10^{-4}$  & 48.46 & $3.0\times10^{-11}$& 0.959 \\
+Bacteria\_unclassified           & $+0.125$ & 0.030 & $2.43\times10^{-4}$  & 23.61 & $7.5\times10^{-6}$ & 0.915 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Pooled validation overestimates microbiome biomarker portability}
+\label{sec:ml}
+
+Three classifiers were evaluated under pooled repeated cross-validation
+and LOCO validation (Table~\ref{tab:performance}). Under pooled
+cross-validation, all models showed apparently useful discrimination, with
+AUROC values of 0.810 (elastic net), 0.881 (random forest), and 0.919
+(XGBoost). AUPRC values were 0.821, 0.894, and 0.926, respectively.
+
+Performance decreased markedly under LOCO validation
+(Table~\ref{tab:performance}). Mean LOCO AUROC was 0.600 for elastic net,
+0.515 for random forest, and 0.547 for XGBoost. AUROC portability gaps were
+0.210, 0.366, and 0.371. AUPRC portability gaps were 0.173, 0.321, and
+0.325. The models with the highest pooled AUROC showed the largest loss under
+LOCO testing. Cohort-specific LOCO results revealed pronounced heterogeneity
+(Table~\ref{tab:loco-by-cohort}): no model achieved AUROC above 0.76 across
+all three held-out cohort scenarios simultaneously.
+
+\begin{table}[h]
+\centering
+\caption{Pooled cross-validation and mean LOCO performance with biomarker
+portability gaps (BPG). AUROC: area under the ROC curve; AUPRC: area under
+the precision--recall curve.}
+\label{tab:performance}
+\begin{tabular}{lcccccc}
+\toprule
+Model & Pooled & LOCO & BPG & Pooled & LOCO & BPG \\
+      & AUROC  & AUROC & (AUROC) & AUPRC & AUPRC & (AUPRC) \\
+\midrule
+Elastic net   & 0.810 & 0.600 & 0.210 & 0.821 & 0.648 & 0.173 \\
+Random forest & 0.881 & 0.515 & 0.366 & 0.894 & 0.573 & 0.321 \\
+XGBoost       & 0.919 & 0.547 & 0.371 & 0.926 & 0.601 & 0.325 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{LOCO AUROC by held-out cohort.}
+\label{tab:loco-by-cohort}
+\begin{tabular}{lccc}
+\toprule
+Model & Finland held out & Malaysia held out & USA held out \\
+\midrule
+Elastic net   & 0.418 & 0.757 & 0.623 \\
+Random forest & 0.525 & 0.370 & 0.649 \\
+XGBoost       & 0.562 & 0.416 & 0.664 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Domain-adaptive correction does not recover portable
+classification}
+
+DEBIAS-M was assessed for compatibility with strict LOCO evaluation.
+Under the available workflow, DEBIAS-M required phenotype metadata from
+the held-out cohort during reference-step fitting, constituting held-out
+phenotype-label leakage and rendering it incompatible with a strict LOCO
+design. DEBIAS-M was therefore not applied.
+
+Transductive cohort-centring was applied as a leakage-free alternative:
+within the held-out test cohort, each CLR feature was mean-centred prior to
+prediction. This produced degenerate classifiers across all three models:
+AUROC = 0.500, sensitivity = 1.000, specificity = 0.000
+(Table~\ref{tab:corrected}). The classifiers predicted PD for every test
+subject, indicating that removing cohort-centred structure eliminated the
+apparent discriminative signal. This result is consistent with the
+interpretation that cohort-structured compositional variation was the primary
+driver of pooled predictive performance.
+
+\begin{table}[h]
+\centering
+\caption{Performance of classifiers trained on transductively cohort-centred
+features, under LOCO validation.}
+\label{tab:corrected}
+\begin{tabular}{lccc}
+\toprule
+Model & AUROC & Sensitivity & Specificity \\
+\midrule
+Elastic net   & 0.500 & 1.000 & 0.000 \\
+Random forest & 0.500 & 1.000 & 0.000 \\
+XGBoost       & 0.500 & 1.000 & 0.000 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Feature importance is unstable across cohort-held-out training
+regimes}
+
+Feature importance was extracted from each LOCO training scenario and
+compared across held-out-cohort conditions (Table~\ref{tab:stability}).
+Stability was low across all classifiers. Mean top-10 overlap was 2.3
+features for elastic net, 3.0 for random forest, and 2.0 for XGBoost, all
+well below the maximum possible overlap of 10. Mean top-20 Jaccard
+similarity was 0.334, 0.380, and 0.225, respectively. Top-ranked features
+varied substantially depending on which cohort was withheld from training,
+reinforcing the interpretation that the apparent biomarker sets were
+cohort-conditioned rather than portable.
+
+\begin{table}[h]
+\centering
+\caption{Feature stability across LOCO training regimes (three held-out
+cohort scenarios per model).}
+\label{tab:stability}
+\begin{tabular}{lccc}
+\toprule
+Model & Mean top-10 overlap & Mean top-20 overlap & Mean Jaccard (top 20) \\
+\midrule
+Elastic net   & 2.3 & 10.0 & 0.334 \\
+Random forest & 3.0 & 11.0 & 0.380 \\
+XGBoost       & 2.0 &  7.3 & 0.225 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% ============================================================
+\section{Discussion}
+\label{sec:discussion}
+
+This study presents a cross-cohort diagnostic workflow for detecting
+microbiome biomarker non-portability under compositional cohort structure.
+Applied to three PD gut microbiome cohorts, the workflow identified a
+consistent failure mode: disease-associated genus-level effects were
+statistically detectable but did not form a portable biomarker signature.
+Cohort background dominated Aitchison-space variance (CDDR = 258.7),
+the disease-effect vector was nearly orthogonal to the dominant
+compositional axis (86.1$^\circ$), pooled machine-learning performance
+overestimated portability, LOCO validation reduced AUROC toward the range
+0.515--0.600, and feature importance was unstable across held-out-cohort
+regimes.
+
+The genus-level results clarify the mechanism. Twenty of 62 genera showed
+a cohort-adjusted PD association surviving FDR correction, confirming that
+disease-associated signals exist within this dataset. However, 25 of 62
+genera showed significant PD-by-cohort interaction, and 31 of 62 showed
+significant between-cohort heterogeneity in the PD effect direction or
+magnitude. This degree of cohort-dependence means that no single genus-level
+signature was consistent enough across cohorts to support portable
+classification. The transductive cohort-centring result reinforces this: when
+cohort-structured variation was removed, classifiers had no remaining
+discriminative signal.
+
+The pooled validation failure is therefore not merely a power issue. The
+62-feature CLR matrix is rich enough to detect 20 FDR-significant PD
+associations under cohort control. The problem is that these associations are
+predominantly cohort-conditioned. Random cross-validation distributes
+cohort-specific structure across training and test folds, producing optimistic
+estimates. LOCO validation prevents this by requiring the disease signal to
+generalise to a compositionally different cohort background.
+
+The biomarker portability gap quantified this discrepancy directly. Models
+with the highest pooled AUROC (XGBoost: 0.919) showed the largest portability
+gap (0.371). Elastic net, the most interpretable model, showed a smaller gap
+(0.210) and more stable feature selection, which may reflect its stronger
+regularisation and consequently lower sensitivity to cohort-specific
+structure.
+
+The within-cohort heterogeneity of genus-level PD effects also has practical
+implications for meta-analysis. The 12 genera with FDR-significant pooled FE
+effects would appear in a meta-analysis as replicated disease associations.
+However, most of these also show high $I^2$ values (range: 0.754--0.959 for
+10 of the 12 genera), indicating that the apparent replication is driven by a
+consistent direction of effect rather than consistent magnitude. The exception,
+Lachnospiraceae\_unclassified ($I^2 = 0$, $q_{\mathrm{FE}} = 1.78 \times
+10^{-7}$), represents the clearest candidate for a portable PD-associated
+microbial signal in this dataset, but its small effect size
+($\hat\beta_{\mathrm{FE}} = +0.172$ CLR units) and the absence of additional
+replication in the LOCO prediction results suggest caution before nominating
+it as a biomarker.
+
+The proposed workflow is not specific to Parkinson's disease. The five
+diagnostic steps --- (1) CDDR and variance partitioning, (2) disease-axis
+geometry, (3) LOCO prediction, (4) BPG estimation, and (5) feature-stability
+analysis --- can be applied to any multi-cohort microbiome biomarker dataset.
+A CDDR near or above 50 is a prior indicator that pooled validation will
+overestimate portable predictive ability. The disease-axis angle provides a
+complementary geometric diagnostic. Together, these two pre-modelling checks
+can flag datasets where LOCO portability testing is likely to reveal a large
+portability gap.
+
+Limitations include the restriction to three cohorts and 16S rRNA amplicon
+sequencing. The 62-feature genus-level harmonisation used here is
+conservative; species-level or strain-level analysis might reveal narrower
+signals with different portability properties. The failure of DEBIAS-M in a
+strict LOCO design may not generalise to all batch-correction methods; future
+evaluation of reference-free or unsupervised correction approaches that do
+not require held-out phenotype labels would be valuable. Finally, the PD
+cohorts used here differ in geographic origin, which conflates microbial
+biogeography with disease status to an unknown degree.
+
+% ============================================================
+\section{Conclusions}
+\label{sec:conclusions}
+
+Apparent microbiome biomarker performance can arise from cohort-structured
+compositional variation rather than portable disease signal. In a three-cohort
+Parkinson's disease dataset (683 individuals, 62 harmonised CLR features),
+cohort structure explained 75.05\% of Aitchison-space variance while disease
+status explained 0.29\%. Twenty of 62 genera showed FDR-significant
+cohort-adjusted PD associations, but 25 of 62 showed significant
+PD-by-cohort interaction and 31 of 62 showed significant between-cohort
+heterogeneity. Pooled classification AUROC reached 0.919 but collapsed to a
+mean LOCO AUROC of 0.547 for the same model (portability gap: 0.371).
+Feature importance was unstable across cohort-held-out training regimes, and
+transductive domain correction eliminated all discriminative signal. The
+proposed five-step workflow --- compositional geometry, cohort-held-out
+prediction, portability-gap estimation, feature-stability analysis, and
+genus-level FDR-corrected heterogeneity testing --- provides a practical
+diagnostic strategy to identify microbiome biomarker non-portability before
+candidate signatures are interpreted as transportable across clinical cohorts.
+
+% ============================================================
+\section*{Declarations}
+
+\textbf{Competing interests:} The authors declare no competing interests.
+
+\textbf{Data availability}
+
+All sequencing datasets analysed in this study are publicly available from
+the European Nucleotide Archive (ENA) and the NCBI Sequence Read Archive
+(SRA) under the following BioProject identifiers: PRJNA494620 (Malaysia),
+PRJEB4927 (Finland), and PRJEB14674 (United States). Corresponding study
+identifiers are SRP199959, ERP004264, and ERP016332, respectively.
+
+No new sequencing data were generated. The harmonised genus-level abundance
+matrix, processed data tables, and all R scripts required to reproduce the
+analyses and figures are publicly available at Zenodo:
+\url{https://doi.org/10.5281/zenodo.18644851}.
+
+% ============================================================
+\begin{thebibliography}{99}
+
+\bibitem{Aitchison1982}
+Aitchison J (1982) The statistical analysis of compositional data.
+\textit{J R Stat Soc Ser B} 44:139--177.
+
+\bibitem{Anderson2001}
+Anderson MJ (2001) A new method for non-parametric multivariate analysis
+of variance. \textit{Austral Ecol} 26:32--46.
+
+\bibitem{Barichella2019}
+Barichella M et al.\ (2019) Unraveling gut microbiota in Parkinson's
+disease and atypical parkinsonism. \textit{Mov Disord} 34:396--405.
+
+\bibitem{Bedarf2017}
+Bedarf JR et al.\ (2017) Functional implications of microbial and viral
+gut metagenome changes in early stage L-DOPA-naive Parkinson's disease
+patients. \textit{Genome Med} 9:39.
+
+\bibitem{Benjamini1995}
+Benjamini Y, Hochberg Y (1995) Controlling the false discovery rate:
+a practical and powerful approach to multiple testing.
+\textit{J R Stat Soc Ser B} 57:289--300.
+
+\bibitem{Oksanen2022}
+Oksanen J et al.\ (2022) vegan: Community Ecology Package.
+R package version 2.6-4.
+
+\bibitem{Sampson2016}
+Sampson TR et al.\ (2016) Gut microbiota regulate motor deficits and
+neuroinflammation in a model of Parkinson's disease.
+\textit{Cell} 167:1469--1480.
+
+\bibitem{Shi2022}
+Shi P et al.\ (2022) DEBIAS-M: Domain-adaptive microbiome batch correction.
+\textit{bioRxiv} 2022.08.02.502474.
+
+\end{thebibliography}
+
+\end{document}

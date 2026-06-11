@@ -1,0 +1,26 @@
+Preparing CRC second-validation sources
+Building harmonized CRC matrix
+Computing observed MBPI-v2 components
+Running MBPI-v2 simulation calibration
+Simulating null_permuted_within_cohort
+Simulating portable_alpha_0.25
+Simulating portable_alpha_0.50
+Simulating portable_alpha_1.00
+Simulating portable_alpha_1.50
+Simulating nonportable_low
+Simulating nonportable_moderate
+Simulating nonportable_high
+Running MBPI-v2 bootstrap uncertainty
+Bootstrap replicate 10/50
+Bootstrap replicate 20/50
+Bootstrap replicate 30/50
+Bootstrap replicate 40/50
+Bootstrap replicate 50/50
+Writing observed summary, components, and audits
+Generating figures
+Writing cross-dataset comparison and completion report
+Second validation complete: C:\work\pd-microbiome-portability\results\mbpi_v2_second_validation
+Observed DSAS: 0.834802
+Observed PRS: 1.000000
+Observed final class: non-portable
+Components written: 12 rows

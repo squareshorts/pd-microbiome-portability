@@ -1,0 +1,22 @@
+# R session and local workspace files
+.RData
+.Rhistory
+.Rproj.user/
+
+# Local package libraries and build products
+R_libs/
+renv/library/
+*.tar.gz
+
+# Python caches and virtual environments
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Logs and temporary files
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
+

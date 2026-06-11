@@ -1,0 +1,11 @@
+required_input,file_used,found,rows,columns,notes
+CLR matrix,C:\work\pd-microbiome-portability\results\portability_analysis\dataset_clr.csv,True,683,65,"Primary 683 x 62 CLR feature source with SampleID, PD, and Cohort columns."
+metadata,C:\work\pd-microbiome-portability\results\portability_analysis\dataset_clr.csv,True,683,65,Metadata columns are embedded in the primary CLR dataset.
+pooled model performance,C:\work\pd-microbiome-portability\results\portability_analysis\model_performance_pooled_cv.csv,True,3,13,Existing pooled CV and mean LOCO model summary.
+LOCO model performance,C:\work\pd-microbiome-portability\results\portability_analysis\model_performance_leave_one_cohort_out.csv,True,9,10,Existing held-out-cohort performance by classifier and cohort.
+portability gap summary,C:\work\pd-microbiome-portability\results\portability_analysis\biomarker_portability_gap.csv,True,3,4,Existing BPG summary.
+feature-stability summary,C:\work\pd-microbiome-portability\results\portability_analysis\feature_stability_summary.csv,True,3,4,Existing top-feature overlap/Jaccard summary.
+genus PD-by-cohort FDR,C:\work\pd-microbiome-portability\results\fdr\genus_disease_by_cohort_interactions_fdr.csv,True,62,13,Existing genus-level interaction FDR table.
+genus Cochran-Q FDR,C:\work\pd-microbiome-portability\results\fdr\genus_heterogeneity_fdr.csv,True,62,15,Existing genus-level heterogeneity FDR table.
+domain-correction feasibility,C:\work\pd-microbiome-portability\results\portability_analysis\debiasm_run_log_or_failure_reason.txt,True,,,Existing DEBIAS-M feasibility log.
+existing portability figures,C:\work\pd-microbiome-portability\results\portability_analysis,True,12,,Directory inspected for existing figures; not used as MBPI numeric input. Figure-like files found: 12.
